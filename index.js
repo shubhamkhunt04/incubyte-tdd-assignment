@@ -5,3 +5,5 @@ function add(numbers) {
     .map(Number)
     .reduce((sum, num) => sum + num, 0);
 }
+
+module.exports = add
