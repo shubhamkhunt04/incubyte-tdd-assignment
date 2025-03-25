@@ -1,18 +1,22 @@
 function add(numbers) {
   if (!numbers) return 0;
 
-  let defaultDelimiter = /[\n,]/;
+  let delimiter = /[\n,]/;
 
   if (numbers.startsWith("//")) {
     const parts = numbers.split("\n");
-    defaultDelimiter = new RegExp(parts[0].slice(2)); // Extract custom delimiter
-    numbers = parts[1]; // Remaining numbers
+    delimiter = new RegExp(parts[0].slice(2));
+    numbers = parts[1];
   }
 
-  return numbers
-    .split(defaultDelimiter)
-    .map(Number)
-    .reduce((sum, num) => sum + num, 0);
+  const numArray = numbers.split(delimiter).map(Number);
+  const negatives = numArray.filter((n) => n < 0);
+
+  if (negatives.length) {
+    throw new Error(`negative numbers not allowed ${negatives.join(",")}`);
+  }
+
+  return numArray.reduce((sum, num) => sum + num, 0);
 }
 
 module.exports = add;
